@@ -1,0 +1,20 @@
+name: py38_tf23
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - cudatoolkit=10.1
+  - cudnn=7.6
+  - ffmpeg
+  - matplotlib
+  - pillow
+  - pip
+  - python=3.8
+  - scikit-image
+  - scikit-learn
+  - scipy
+  - pip:
+    - numpy
+    - tensorflow==2.3.0
+    - gputil
+    - pandas
