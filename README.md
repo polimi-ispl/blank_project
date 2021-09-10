@@ -12,7 +12,7 @@ Folders and files are organized as follows.
     │   └── utils.py                # Utility functions
     ├── environment.yml             # Conda environment definition
     ├── params.py                   # Simulation parameters
-    └── README.md
+    └── train_cnn_keras.py          # Script to train a CNN with Keras
 
 ## Getting started
 
@@ -23,6 +23,18 @@ Folders and files are organized as follows.
 $ conda env create -f environment.yml
 $ conda activate py38_tf23
 ```
+
+## Train a CNN
+To train a CNN
+- Set the desired parameters in *params.py* (e.g., `model_name`, `input_shape`, etc.)
+- Run the script *train_cnn_keras.py* (if using Tensorflow / Keras)
+
+The trained model and training history are saved into `trained_models_root` folder defined in *params.py*.
+
+## Additional resources
+- [Tensorflow / Keras](https://www.tensorflow.org/tutorials)
+- [Pytorch](https://pytorch.org/tutorials/)
+- [scikit-learn](https://scikit-learn.org/stable/tutorial/index.html)
 
 ## Credits
 [Image and Sound Processing Lab - Politecnico di Milano](http://ispl.deib.polimi.it/)
