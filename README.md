@@ -11,6 +11,7 @@ Folders and files are organized as follows.
     │   ├── architectures.py        # CNN architectures
     │   └── utils.py                # Utility functions
     ├── environment.yml             # Conda environment definition
+    ├── gpu_check.py                # Script to check if GPU setup
     ├── params.py                   # Simulation parameters
     └── train_cnn_keras.py          # Script to train a CNN with Keras
 
@@ -23,6 +24,10 @@ Folders and files are organized as follows.
 $ conda env create -f environment.yml
 $ conda activate py38_tf23
 ```
+
+### Check GPU
+- Run the script *gpu_check.py* to check if GPUs are working correctly.
+
 
 ## Train a CNN
 To train a CNN
