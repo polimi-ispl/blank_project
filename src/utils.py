@@ -15,8 +15,12 @@ import tensorflow as tf
 
 def set_gpu(id=-1):
     """
-    Set GPU device or select the one with the lowest memory usage (None for CPU-only)
-    :param id: CPU or GPU device id
+    Set tensor computation device.
+    
+    :param id: CPU or GPU device id (None for CPU, -1 for the device with lowest memory usage, or the ID)
+
+    hint: use gpustat (pip install gpustat) in a bash CLI, or gputil (pip install gputil) in python.
+
     """
     if id is None:
         # CPU only
