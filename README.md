@@ -13,17 +13,27 @@ Folders and files are organized as follows.
     ├── environment.yml             # Conda environment definition
     ├── gpu_check.py                # Script to check the GPU setup
     ├── params.py                   # Simulation parameters
-    └── train_cnn_keras.py          # Script to train a CNN with Keras
+    ├── train_cnn_keras.py          # Script to train a CNN with Keras
+    └── train_cnn_pytorch.py	    # Script to train a CNN with pytorch
 
 ## Getting started
 
-### Prerequisites
+### Prerequisites - keras enviroment
 - Install [conda](https://docs.conda.io/en/latest/miniconda.html)
-- Create and activate the `py38_tf23` environment with *environment.yml*
+- Create and activate the `keras_env` environment with *keras_environment.yml*
 ```bash
-$ conda env create -f environment.yml
-$ conda activate py38_tf23
+$ conda env create -f keras_environment.yml
+$ conda activate keras_env
 ```
+
+### Prerequisites - pytorch enviroment
+- Install [conda](https://docs.conda.io/en/latest/miniconda.html)
+- Create and activate the `torch_env` environment with *torch_environment.yml*
+```bash
+$ conda env create -f torch_environment.yml
+$ conda activate torch_env
+```
+
 
 ### Check GPU
 - Run the script *gpu_check.py* to check if GPUs are working correctly.
@@ -32,7 +42,8 @@ $ conda activate py38_tf23
 ## Train a CNN
 To train a CNN
 - Set the desired parameters in *params.py* (e.g., `model_name`, `input_shape`, etc.)
-- Run the script *train_cnn_keras.py* (if using Tensorflow / Keras)
+- Run the script *train_cnn_keras.py* (if using Tensorflow / Keras) or *train_cnn_pytorch* (if using pytorch)
+
 
 The trained model and training history are saved into `trained_models_root` folder defined in *params.py*.
 
