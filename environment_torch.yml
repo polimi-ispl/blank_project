@@ -1,9 +1,9 @@
-name: py38_tf23
+name: torch_env
 channels:
   - conda-forge
   - defaults
 dependencies:
-  - cudatoolkit=10.1
+  - cudatoolkit=10.2
   - cudnn=7.6
   - ffmpeg
   - matplotlib
@@ -13,8 +13,11 @@ dependencies:
   - scikit-image
   - scikit-learn
   - scipy
+  - pytorch
+  - torchvision
+  - pandas
+  - numpy
   - pip:
-    - numpy
-    - tensorflow==2.3.0
     - gputil
-    - pandas
+
+
