@@ -1,5 +1,7 @@
 import os
-import src.architectures as arch
+
+import src
+import src.torch as arch
 from params import batch_size, epochs, trained_models_root, model_name_torch
 
 import numpy as np
@@ -51,26 +53,28 @@ def val_loop(dataloader, model, loss_fn, device):
     print(f"Validation Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {val_loss:>8f} \n")
     return correct, val_loss
 
-def main():
 
+def main():
     # Output path
     history_path = os.path.join(trained_models_root, '{:s}'.format(model_name_torch), 'history_torch.pt')
+    os.makedirs(history_path, exist_ok=False)
+    
+    # select the computation device
+    # manually:
     device = torch.device('cuda:0')
-
+    # or automatically:
+    src.set_gpu()
+    
     # Transform to tensor and normalize to [0, 1]
     transform = transforms.Compose(
         [transforms.ToTensor()])
 
     # Load training and validation set, initialize Dataloaders
-    trainset = CIFAR10(root='./data', train=True,
-                                            download=True, transform=transform)
-    train_dataloader = DataLoader(trainset, batch_size=batch_size,
-                                              shuffle=True, num_workers=2)
+    trainset = CIFAR10(root='./data', train=True, download=True, transform=transform)
+    train_dataloader = DataLoader(trainset, batch_size=batch_size, shuffle=True, num_workers=2)
 
-    valset = CIFAR10(root='./data', train=False,
-                                           download=True, transform=transform)
-    val_dataloader = DataLoader(valset, batch_size=batch_size,
-                                             shuffle=False, num_workers=2)
+    valset = CIFAR10(root='./data', train=False, download=True, transform=transform)
+    val_dataloader = DataLoader(valset, batch_size=batch_size, shuffle=False, num_workers=2)
     # Initialize model
     model = arch.model_torch()
     # Move the model on gpu

@@ -1,3 +1,7 @@
+"""
+An example of training script that implements Pytorch-Lightning
+@Author: Francesco Picetti
+"""
 import os
 from torch.utils.data import DataLoader
 import torchvision.transforms as transforms
@@ -16,6 +20,7 @@ except ModuleNotFoundError:
 
 class CNN(pl.LightningModule):
     def __init__(self, n_classes=10):
+        """A standard convolutional classifier"""
         super().__init__()
         self.conv1 = torch.nn.Conv2d(3, 32, 3)  # 30x30
         self.pool1 = torch.nn.MaxPool2d(2, 2)   # 15x15
@@ -64,9 +69,9 @@ class CNN(pl.LightningModule):
 def main():
     parser = ArgumentParser(description="An example of parsing arguments")
     
-    parser.add_argument("--trained_models_root", type=str, required=False,
-                        default=os.path.join("data", 'trained_models'),
-                        help="Name of the model to be loaded")
+    parser.add_argument("--outpath", type=str, required=False,
+                        default="results",
+                        help="Results directory")
     parser.add_argument("--num_gpus", type=int, required=False, default=1,
                         help="Number of GPUs to use")
     parser.add_argument("--batch_size", type=int, required=False, default=32,
@@ -94,7 +99,7 @@ def main():
     
     # define callbacks
     early_stopping = pl.callbacks.EarlyStopping('val_loss', mode="min", patience=10)
-    checkpoint = pl.callbacks.ModelCheckpoint(dirpath=args.trained_models_root)
+    checkpoint = pl.callbacks.ModelCheckpoint(dirpath=args.outpath)
     
     # initialize a trainer
     trainer = pl.Trainer(gpus=args.num_gpus,  # how many GPUs to use...

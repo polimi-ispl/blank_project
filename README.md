@@ -3,10 +3,11 @@ The goal of this repository is to speed up the creation of a new project.
 It contains some useful code and utilities, as well as an examlpe of code organization.
 
 ## Project organization
-Folders and files are organized as follows.
+Folders and files should be organized as follows.
 
     .
-    ├── notebooks                   # Folder containing notebooks
+    ├── data                        # Folder containing datasets
+    ├── results                     # Folder containing results
     ├── src                         # Folder containing useful functions
     │   ├── architectures.py        # CNN architectures
     │   └── utils.py                # Utility functions
@@ -47,11 +48,24 @@ To train a CNN
 
 The trained model and training history are saved into `trained_models_root` folder defined in *params.py*.
 
+
+## One step forward: passing arguments to a python script
+In many cases, it is useful to have a python script that can accept different combinations of hyperparameters.
+For example, one might want to have a `train.py` that accepts as arguments `epochs` and `learning_rate`,
+in order to try different parameters values for fine-tuning the experiment.
+Instead of manually set them in a file like [`params.py`](params.py), this can be done by adopting the [`ArgumentParser`](https://docs.python.org/3/library/argparse.html) object.
+Check it out in [`pass_parameters_to_script.py](pass_parameters_to_script.py).
+
+
 ## Additional resources
 - [Tensorflow / Keras](https://www.tensorflow.org/tutorials)
 - [Pytorch](https://pytorch.org/tutorials/)
 - [scikit-learn](https://scikit-learn.org/stable/tutorial/index.html)
+- [Tensorboard](https://www.tensorflow.org/tensorboard/get_started)
 
 ## Credits
 [Image and Sound Processing Lab - Politecnico di Milano](http://ispl.deib.polimi.it/)
 - Paolo Bestagini
+- Francesco Picetti
+- Nicolò Bonettini
+- Francesco Maffezzoli
