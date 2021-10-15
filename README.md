@@ -56,6 +56,21 @@ in order to try different parameters values for fine-tuning the experiment.
 Instead of manually set them in a file like [`params.py`](params.py), this can be done by adopting the [`ArgumentParser`](https://docs.python.org/3/library/argparse.html) object.
 Check it out in [`pass_parameters_to_script.py](pass_parameters_to_script.py).
 
+## Log experiments with TensorBoard
+[Tensorboard](https://www.tensorflow.org/tensorboard/) is a powerful tool for visualizing and tracking variables along different experiments.
+A common use-case is to track the losses and the metrics of different set-up.
+
+A part from Tensorflow and PyTorch integrations, you can log pretty much everything to your tensorboard.
+See our [example script](log_tensorboard.py).
+
+*Rembember*: first you have to launch the server with `tensorboard --logdir RUN_PATH`
+
+For your convenience, you can define a bash alias to speed up the command above:
+```bash
+echo "alias tb='tensorboard --logdir '" >> ~/.bashrc
+source ~/.bashrc
+```
+Now you can start the server with `tb RUN_PATH`
 
 ## Additional resources
 - [Tensorflow / Keras](https://www.tensorflow.org/tutorials)
