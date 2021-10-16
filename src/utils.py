@@ -8,10 +8,11 @@ Image and Sound Processing Lab - Politecnico di Milano
 Paolo Bestagini
 """
 import os
-
 import GPUtil
-import tensorflow as tf
 
+__all__ = [
+    "set_gpu",
+]
 
 def set_gpu(id=-1):
     """
@@ -37,7 +38,4 @@ def set_gpu(id=-1):
             name = GPUtil.getGPUs()[device].name
         print('GPU selected: %d - %s' % (device, name))
         os.environ["CUDA_VISIBLE_DEVICES"] = str(device)
-    # Set memory growth
-    gpus = tf.config.experimental.list_physical_devices('GPU')
-    for gpu in gpus:
-        tf.config.experimental.set_memory_growth(gpu, True)
+        

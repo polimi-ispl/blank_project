@@ -1,5 +1,7 @@
 import os
-import src.architectures as arch
+
+import src
+import src.torch as arch
 from params import batch_size, epochs, trained_models_root, model_name_torch
 
 import pandas
@@ -52,18 +54,18 @@ def val_loop(dataloader, model, loss_fn, dtype):
     print(f"Validation Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {val_loss:>8f} \n")
     return correct, val_loss
 
-def main():
 
+def main():
     # Output path
     history_path = os.path.join(trained_models_root, '{:s}'.format(model_name_torch), 'history_torch.pt')
 
-    os.makedirs(history_path, exist_ok=True)
+    os.makedirs(history_path, exist_ok=False)
     
     # select the computation device
     # manually:
     device = torch.device('cuda:0')
     # or automatically:
-    src.set_gpu(0)
+    src.set_gpu()
     dtype = src.torch.dtype()
     # set backend here to create GPU processes after setting CUDA_VISIBLE_DEVICES
     src.torch.set_backend()
@@ -74,15 +76,11 @@ def main():
         [transforms.ToTensor()])
 
     # Load training and validation set, initialize Dataloaders
-    trainset = CIFAR10(root='./data', train=True,
-                                            download=True, transform=transform)
-    train_dataloader = DataLoader(trainset, batch_size=batch_size,
-                                              shuffle=True, num_workers=2)
+    trainset = CIFAR10(root='./data', train=True, download=True, transform=transform)
+    train_dataloader = DataLoader(trainset, batch_size=batch_size, shuffle=True, num_workers=2)
 
-    valset = CIFAR10(root='./data', train=False,
-                                           download=True, transform=transform)
-    val_dataloader = DataLoader(valset, batch_size=batch_size,
-                                             shuffle=False, num_workers=2)
+    valset = CIFAR10(root='./data', train=False, download=True, transform=transform)
+    val_dataloader = DataLoader(valset, batch_size=batch_size, shuffle=False, num_workers=2)
     # Initialize model
     model = arch.model_torch()
     # Move the model on gpu
@@ -121,7 +119,7 @@ def main():
             min_val_loss = val_loss
         else:                           # No improvement in the new epoch
             no_improvement += 1
-
+            
         if t > 5 and no_improvement == patience:    # Patience reached
             print(f'Early stopped at epoch {t}')
             # Save history for early stopping
