@@ -17,7 +17,11 @@ import src.tensorflow as arch
 from params import trained_models_root, model_name_keras, input_shape, batch_size, epochs
 from src.utils import set_gpu
 
+
+# set the computation device to be used (0: first GPU, None: CPU, -1 most free GPU)...
 set_gpu(id=0)
+# ... and allow TensorFlow to use the memory growth (otherwise, you will occupy all the GPU memory)
+arch.init_gpus()
 
 
 def main():
@@ -28,7 +32,7 @@ def main():
     # Load dataset for training and validation
     (img_tr, y_tr), (img_val, y_val) = datasets.cifar10.load_data()
 
-    # Normalize dataset
+    # Normalize dataset from PNG-like uint8 to floating in [0,1]
     img_tr = img_tr / 255.0
     img_val = img_val / 255.0
 

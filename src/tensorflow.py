@@ -3,7 +3,7 @@ from tensorflow.keras import layers, models
 
 __all__ = [
     "init_gpus",
-    "model",
+    "model_keras",
 ]
 
 
@@ -14,7 +14,7 @@ def init_gpus():
         tf.config.experimental.set_memory_growth(gpu, True)
 
 
-def model(input_shape):
+def model_keras(input_shape):
     """
     Simple CNN model
     :param input_shape: input data shape

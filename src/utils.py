@@ -14,6 +14,7 @@ __all__ = [
     "set_gpu",
 ]
 
+
 def set_gpu(id=-1):
     """
     Set tensor computation device.

@@ -70,7 +70,7 @@ For your convenience, you can define a bash alias to speed up the command above:
 echo "alias tb='tensorboard --logdir '" >> ~/.bashrc
 source ~/.bashrc
 ```
-Now you can start the server with `tb RUN_PATH`
+Now you can start the server with `tb RUN_PATH` and your python script that creates a tensorboard log to `RUN_PATH`.
 
 ## Additional resources
 - [Tensorflow / Keras](https://www.tensorflow.org/tutorials)
