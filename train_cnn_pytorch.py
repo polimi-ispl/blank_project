@@ -13,18 +13,18 @@ import torchvision.transforms as transforms
 from torchvision.datasets import CIFAR10
 
 
-def train_loop(dataloader, model, loss_fn, optimizer, dtype):
+def train_loop(dataloader, model, loss_fn, optimizer, platform):
     size = len(dataloader.dataset)
     for batch, (X, y) in enumerate(dataloader):
         # Move data on GPU
-        X = X.type(dtype)
-        y = y.type(dtype)
+        X = X.to(platform)
+        y = y.to(platform)
 
         optimizer.zero_grad()
 
         # Compute prediction and loss
         pred = model(X)
-        loss = loss_fn(pred, y.type(torch.long))
+        loss = loss_fn(pred, y)
         # Backpropagation
         loss.backward()
         optimizer.step()
@@ -34,7 +34,7 @@ def train_loop(dataloader, model, loss_fn, optimizer, dtype):
             print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
 
 
-def val_loop(dataloader, model, loss_fn, dtype):
+def val_loop(dataloader, model, loss_fn, platform):
     size = len(dataloader.dataset)
     num_batches = len(dataloader)
     val_loss, correct = 0, 0
@@ -42,12 +42,12 @@ def val_loop(dataloader, model, loss_fn, dtype):
     with torch.no_grad():
         for X, y in dataloader:
             # Move data on GPU
-            X = X.type(dtype)
-            y = y.type(dtype)
+            X = X.to(platform)
+            y = y.to(platform)
             # Prediction on the validation set
             pred = model(X)
             val_loss += loss_fn(pred, y.type(torch.long)).item()
-            correct += (pred.argmax(1) == y).type(torch.float).sum().item()
+            correct += (pred.argmax(1) == y).sum().item()
 
     val_loss /= num_batches
     correct /= size
@@ -59,17 +59,20 @@ def main():
     # Output path
     history_path = os.path.join(trained_models_root, '{:s}'.format(model_name_torch), 'history_torch.pt')
 
-    os.makedirs(history_path, exist_ok=False)
+    os.makedirs(history_path, exist_ok=True)
     
-    # select the computation device
-    # manually:
-    device = torch.device('cuda:0')
-    # or automatically:
-    src.set_gpu()
-    dtype = src.torch.dtype()
-    # set backend here to create GPU processes after setting CUDA_VISIBLE_DEVICES
+    # select the computation device automatically:
+    src.set_gpu(-1)
+    # or manually the first GPU (None for CPU):
+    # src.set_gpu(0)
+    
+    # set backend here to create GPU processes
     src.torch.set_backend()
     src.torch.set_seed()
+    
+    # define the computation platform for torch:
+    platform = src.torch.platform()
+    dtype = src.torch.dtype()
 
     # Transform to tensor and normalize to [0, 1]
     transform = transforms.Compose(
@@ -81,11 +84,13 @@ def main():
 
     valset = CIFAR10(root='./data', train=False, download=True, transform=transform)
     val_dataloader = DataLoader(valset, batch_size=batch_size, shuffle=False, num_workers=2)
+    
     # Initialize model
     model = arch.model_torch()
-    # Move the model on gpu
-    model.type(dtype)
-
+    # Move the model on gpu either with
+    model = model.to(platform)
+    
+    # define the optimization parameters
     learning_rate = 1e-3
     loss_fn = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
@@ -101,8 +106,8 @@ def main():
 
         print(f"Epoch {t+1}\n-------------------------------")
         # Model training
-        train_loop(train_dataloader, model, loss_fn, optimizer, dtype)
-        accuracy, val_loss = val_loop(val_dataloader, model, loss_fn, dtype)
+        train_loop(train_dataloader, model, loss_fn, optimizer, platform)
+        accuracy, val_loss = val_loop(val_dataloader, model, loss_fn, platform)
         lr_scheduler.step(val_loss)    # call the scheduler to reduce the lr if val loss is in plateau
         history.append({"epoch": t,
                         "loss": val_loss,
@@ -132,6 +137,6 @@ def main():
     df = pandas.DataFrame(history)
     df.to_csv("history.csv")
 
+
 if __name__ == '__main__':
     main()
-

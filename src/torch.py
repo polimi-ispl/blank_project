@@ -5,9 +5,12 @@
 
 import torch
 import numpy as np
-import gc
 import os
 import torch.nn.functional as F
+
+
+def torch_on_cuda():
+    return os.environ["CUDA_VISIBLE_DEVICES"] and torch.cuda.is_available()
 
 
 def set_backend():
@@ -22,18 +25,20 @@ def set_seed(seed: int = 42) -> None:
     torch.cuda.manual_seed(seed)
 
 
-def garbage_collection_cuda():
-    """Garbage collection Torch (CUDA) memory."""
-    gc.collect()
-    if torch.cuda.is_available():
-        torch.cuda.empty_cache()
-
-
 def dtype():
-    if os.environ["CUDA_VISIBLE_DEVICES"]:
+    if torch_on_cuda():
         return torch.cuda.FloatTensor
     else:
         return torch.FloatTensor
+
+
+def platform():
+    if torch_on_cuda():
+        # watch out! cuda for torch is 0 because it is the first torch can see! It is not the os.environ one!
+        device = "cuda:0"
+    else:
+        device = "cpu"
+    return torch.device(device)
 
 
 class model_torch(torch.nn.Module):
