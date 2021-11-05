@@ -47,8 +47,12 @@ $ conda env create -f envs/torch_environment.yml
 $ conda activate torch_env
 ```
 
-### Check GPU
-- Run the script [*gpu_check.py*](gpu_check.py) to check if GPUs are working correctly.
+### Use a GPU
+Considering the high computational cost of deep learning algorithms, it is useful to accelarate on a GPU.
+Basically, both tensorflow and pytorch come with native GPU support. However, they have different features:
+- PyTorch natively supports 1 GPU at a time; if you (really) need multiple GPUs, you have to code your own 
+`DataParallel` paradigm. To the best of our knowledge, it works perfectly at a glance.
+- Tensorflow typically needs an extra effort, as it needs a [perfect combination](https://www.tensorflow.org/install/source#gpu) of driver/python/package versions. Run the script [*gpu_check_tf.py*](gpu_check_tf.py) to check if GPUs are working correctly.
 
 
 ## Train a CNN
@@ -115,6 +119,7 @@ Image and video processing
 - [Albumentation](https://albumentations.ai/)
 - [scikit-video](http://www.scikit-video.org/)
 - [ffmpeg-python](https://github.com/kkroening/ffmpeg-python)
+- CNN Segmentation Models both in [Tensorflow](https://github.com/qubvel/segmentation_models) and [PyTorch](https://github.com/qubvel/segmentation_models.pytorch)
 
 Audio processing
 - [librosa](https://librosa.org/)

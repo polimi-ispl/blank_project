@@ -72,7 +72,6 @@ def main():
     
     # define the computation platform for torch:
     platform = src.torch_utils.platform()
-    dtype = src.torch_utils.dtype()
 
     # Transform to tensor and normalize to [0, 1]
     transform = transforms.Compose(
