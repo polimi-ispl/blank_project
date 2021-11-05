@@ -11,6 +11,7 @@ import os
 
 import GPUtil
 
+# Tell "from utils import *" what to import
 __all__ = [
     "set_gpu",
 ]
@@ -40,4 +41,3 @@ def set_gpu(id=-1):
             name = GPUtil.getGPUs()[device].name
         print('GPU selected: %d - %s' % (device, name))
         os.environ["CUDA_VISIBLE_DEVICES"] = str(device)
-        

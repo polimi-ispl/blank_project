@@ -17,10 +17,10 @@ print(epochs)
 
 input_shape = (32, 32, 3)
 
-# method 2: use ArgumentParser (https://docs.python.org/3/library/argparse.html)
-
+# method 2: use ArgumentParser (https://docs.python.org/3/library/argparse.html
 from argparse import ArgumentParser
 import os
+
 
 if __name__ == "__main__":
     
@@ -69,5 +69,3 @@ if __name__ == "__main__":
     
     # if you need to load the args from such a file, simply use read_args:
     args_from_disk = read_args(filename=os.path.join(args.outpath, "args.txt"))
-
-    

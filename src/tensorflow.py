@@ -1,6 +1,16 @@
+"""
+Tensorflow functions
+
+Blank Project
+
+Image and Sound Processing Lab - Politecnico di Milano
+
+Paolo Bestagini
+"""
 import tensorflow as tf
 from tensorflow.keras import layers, models
 
+# Tell "from tensorflow import *" what to import
 __all__ = [
     "init_gpus",
     "model_keras",
