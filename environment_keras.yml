@@ -8,6 +8,8 @@ dependencies:
   - cudnn=7.6
   - ffmpeg
   - matplotlib
+  - numpy
+  - pandas
   - pillow
   - pip
   - python=3.8
@@ -15,7 +17,5 @@ dependencies:
   - scikit-learn
   - scipy
   - pip:
-      - numpy
       - tensorflow==2.3.0
       - gputil
-      - pandas
