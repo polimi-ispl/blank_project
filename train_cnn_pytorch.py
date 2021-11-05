@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 from torchvision.datasets import CIFAR10
 
 import src
-import src.torch as arch
+import src.torch_utils as arch
 from params import batch_size, epochs, trained_models_root, model_name_torch
 
 
@@ -67,12 +67,12 @@ def main():
     # src.set_gpu(0)
     
     # set backend here to create GPU processes
-    src.torch.set_backend()
-    src.torch.set_seed()
+    src.torch_utils.set_backend()
+    src.torch_utils.set_seed()
     
     # define the computation platform for torch:
-    platform = src.torch.platform()
-    dtype = src.torch.dtype()
+    platform = src.torch_utils.platform()
+    dtype = src.torch_utils.dtype()
 
     # Transform to tensor and normalize to [0, 1]
     transform = transforms.Compose(

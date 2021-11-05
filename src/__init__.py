@@ -9,8 +9,8 @@ from .arguments import read_args, write_args
 from .utils import *
 
 if find_spec("torch"):
-    from . import torch
+    from . import torch_utils
 
 if find_spec("tensorflow"):
-    from . import tensorflow
+    from . import tensorflow_utils
 

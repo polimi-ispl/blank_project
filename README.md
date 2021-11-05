@@ -9,16 +9,15 @@ Folders and files should be organized as follows.
     .
     ├── bash                            # Folder containing bash scripts
     ├── data                            # Folder containing input and output data
+    ├── envs                            # Folder containing conda environment definitions
     ├── notebooks                       # Folder containing jupyter notebooks
     ├── results                         # Folder containing results
     ├── src                             # Folder containing useful functions
     │   ├── arguments.py                # Functions to pass arguments to scripts
-    │   ├── tensorflow.py               # Functions for tensorflow scipts
-    │   ├── torch.py                    # Functions for pytorch scipts
+    │   ├── tensorflow_utils.py         # Functions for tensorflow scipts
+    │   ├── torch_utils.py              # Functions for pytorch scipts
     │   └── utils.py                    # Utility functions
     ├── clear_tensorboard_runs.py       # Script to clear tensorboard runs
-    ├── environment_keras.yml           # Conda keras environment definition
-    ├── environment_torch.yml           # Conda torch environment definition
     ├── gpu_check.py                    # Script to check the GPU setup
     ├── log_tensorboard.py              # Script to log info through tensorboard
     ├── params.py                       # Simulation parameters
@@ -36,7 +35,7 @@ To get started, prepare a python environment and check if everything runs.
 - Install [conda](https://docs.conda.io/en/latest/miniconda.html)
 - Create and activate the `keras_env` environment with [*keras_environment.yml*](keras_environment.yml)
 ```bash
-$ conda env create -f keras_environment.yml
+$ conda env create -f envs/keras_environment.yml
 $ conda activate keras_env
 ```
 
@@ -44,7 +43,7 @@ $ conda activate keras_env
 - Install [conda](https://docs.conda.io/en/latest/miniconda.html)
 - Create and activate the `torch_env` environment with [*torch_environment.yml*](torch_environment.yml)
 ```bash
-$ conda env create -f torch_environment.yml
+$ conda env create -f envs/torch_environment.yml
 $ conda activate torch_env
 ```
 

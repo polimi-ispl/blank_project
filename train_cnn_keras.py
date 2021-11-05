@@ -13,7 +13,7 @@ import numpy as np
 from tensorflow.keras import datasets
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
 
-import src.tensorflow as arch
+import src.tensorflow_utils as arch
 from params import trained_models_root, model_name_keras, input_shape, batch_size, epochs
 from src.utils import set_gpu
 
