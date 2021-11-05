@@ -17,7 +17,6 @@ import src.tensorflow as arch
 from params import trained_models_root, model_name_keras, input_shape, batch_size, epochs
 from src.utils import set_gpu
 
-
 # set the computation device to be used (0: first GPU, None: CPU, -1 most free GPU)...
 set_gpu(id=0)
 # ... and allow TensorFlow to use the memory growth (otherwise, you will occupy all the GPU memory)

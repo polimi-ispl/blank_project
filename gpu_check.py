@@ -7,9 +7,9 @@ Image and Sound Processing Lab - Politecnico di Milano
 
 Paolo Bestagini
 """
+import numpy as np
 import tensorflow as tf
 from tensorflow.keras import layers, models
-import numpy as np
 
 
 def main():

@@ -8,6 +8,7 @@ Image and Sound Processing Lab - Politecnico di Milano
 Paolo Bestagini
 """
 import os
+
 import GPUtil
 
 __all__ = [

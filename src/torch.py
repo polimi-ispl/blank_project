@@ -3,10 +3,12 @@
 @Author: Francesco Maffezzoli
 """
 
-import torch
-import numpy as np
 import os
+
+import numpy as np
 import torch.nn.functional as F
+
+import torch
 
 
 def torch_on_cuda():

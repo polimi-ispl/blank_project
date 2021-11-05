@@ -1,8 +1,8 @@
-from argparse import Namespace
-from typing import Union
-import json
-from pathlib import Path
 import copy
+import json
+from argparse import Namespace
+from pathlib import Path
+from typing import Union
 
 
 def read_args(filename: Union[str, Path]) -> Namespace:

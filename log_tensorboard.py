@@ -5,9 +5,9 @@ https://tensorboardx.readthedocs.io/en/latest/tutorial.html#install
 @Author: Francesco Picetti
 @Author: Nicolò Bonettini
 """
-from tensorboardX import SummaryWriter
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+from tensorboardX import SummaryWriter
 
 
 def main():
@@ -37,4 +37,3 @@ def main():
     
 if __name__ == "__main__":
     main()
-    

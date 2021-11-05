@@ -1,16 +1,16 @@
 import os
 
+import numpy as np
+import pandas
+import torch
+import torchvision.transforms as transforms
+from torch import nn
+from torch.utils.data import DataLoader
+from torchvision.datasets import CIFAR10
+
 import src
 import src.torch as arch
 from params import batch_size, epochs, trained_models_root, model_name_torch
-
-import pandas
-import numpy as np
-from torch import nn
-import torch
-from torch.utils.data import DataLoader
-import torchvision.transforms as transforms
-from torchvision.datasets import CIFAR10
 
 
 def train_loop(dataloader, model, loss_fn, optimizer, platform):

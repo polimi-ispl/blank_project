@@ -2,13 +2,13 @@
 An example of training script that implements Pytorch-Lightning
 @Author: Francesco Picetti
 """
-import os
-from torch.utils.data import DataLoader
-import torchvision.transforms as transforms
-from torchvision.datasets import CIFAR10
+from argparse import ArgumentParser
+
 import torch
 import torch.nn.functional as F
-from argparse import ArgumentParser
+import torchvision.transforms as transforms
+from torch.utils.data import DataLoader
+from torchvision.datasets import CIFAR10
 
 try:
     import pytorch_lightning as pl
