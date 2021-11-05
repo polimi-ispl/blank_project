@@ -23,6 +23,7 @@ Folders and files should be organized as follows.
     ├── log_tensorboard.py              # Script to log info through tensorboard
     ├── params.py                       # Simulation parameters
     ├── pass_parameters_to_script.py    # Script to pass input arguments
+    ├── run_parallel.py                 # Script to run a function in parallel
     ├── train_cnn_keras.py              # Script to train a CNN with Keras
     ├── train_cnn_lightning.py          # Script to train a CNN with pytorch lightning
     └── train_cnn_pytorch.py            # Script to train a CNN with pytorch
@@ -88,13 +89,39 @@ source ~/.bashrc
 Now you can start the server with `tb RUN_PATH` and your python script that creates a tensorboard log to `RUN_PATH`.
 
 
+## Parallel processing
+It is customary to run a function multiple times on different inputs (e.g., compute spectrograms from multiple audio
+recordings, apply some processing to all the images in a dataset, analyze each frame of a video, etc.).
+This can be done serially with a for loop, or in parallel over multiple cores.
+Have a look at the example script [*run_parallel.py*](run_parallel.py).
+
+
 ## Additional resources
+General
 - [Conda cheat sheet](https://docs.conda.io/projects/conda/en/latest/user-guide/cheatsheet.html)
+- [PyCharm](https://www.jetbrains.com/pycharm/)
+- [Pandas](https://pandas.pydata.org/docs/getting_started/index.html)
+
+Machine learning
+- [scikit-learn](https://scikit-learn.org/stable/tutorial/index.html)
 - [Tensorflow / Keras](https://www.tensorflow.org/tutorials)
 - [Pytorch](https://pytorch.org/tutorials/)
-- [scikit-learn](https://scikit-learn.org/stable/tutorial/index.html)
 - [Tensorboard](https://www.tensorflow.org/tensorboard/get_started)
-- [Pandas](https://pandas.pydata.org/docs/getting_started/index.html)
+
+Image and video processing
+- [Pillow](https://pillow.readthedocs.io/en/stable/)
+- [scikit-image](https://scikit-image.org/)
+- [OpenCV](https://opencv.org/)
+- [imgaug](https://imgaug.readthedocs.io/en/latest/)
+- [Albumentation](https://albumentations.ai/)
+- [scikit-video](http://www.scikit-video.org/)
+- [ffmpeg-python](https://github.com/kkroening/ffmpeg-python)
+
+Audio processing
+- [librosa](https://librosa.org/)
+- [Audiomentation](https://github.com/iver56/audiomentations)
+- [pyroomacoustics](https://pyroomacoustics.readthedocs.io/)
+
 
 ## Credits
 [Image and Sound Processing Lab - Politecnico di Milano](http://ispl.deib.polimi.it/)

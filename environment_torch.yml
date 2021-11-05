@@ -17,6 +17,7 @@ dependencies:
   - torchvision
   - pandas
   - numpy
+  - tqdm
   - pip:
     - gputil
 
