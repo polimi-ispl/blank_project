@@ -33,7 +33,7 @@ To get started, prepare a python environment and check if everything runs.
 
 ### Prepare a keras enviroment
 - Install [conda](https://docs.conda.io/en/latest/miniconda.html)
-- Create and activate the `keras_env` environment with [*keras_environment.yml*](envs/keras_environment.yml)
+- Create and activate the `keras_env` environment with [*environment_keras.yml*](envs/environment_keras.yml)
 ```bash
 $ conda env create -f envs/keras_environment.yml
 $ conda activate keras_env
@@ -41,7 +41,7 @@ $ conda activate keras_env
 
 ### Prepare a pytorch enviroment
 - Install [conda](https://docs.conda.io/en/latest/miniconda.html)
-- Create and activate the `torch_env` environment with [*torch_environment.yml*](envs/torch_environment.yml)
+- Create and activate the `torch_env` environment with [*environment_torch.yml*](envs/environment_torch.yml)
 ```bash
 $ conda env create -f envs/torch_environment.yml
 $ conda activate torch_env
