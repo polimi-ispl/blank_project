@@ -101,30 +101,32 @@ Have a look at the example script [*run_parallel.py*](run_parallel.py).
 
 ## Additional resources
 General
-- [Conda cheat sheet](https://docs.conda.io/projects/conda/en/latest/user-guide/cheatsheet.html)
-- [PyCharm](https://www.jetbrains.com/pycharm/)
-- [Pandas](https://pandas.pydata.org/docs/getting_started/index.html)
+- [Conda cheat sheet](https://docs.conda.io/projects/conda/en/latest/user-guide/cheatsheet.html): useful conda commands.
+- [PyCharm](https://www.jetbrains.com/pycharm/): python IDE ([free for students](https://www.jetbrains.com/community/education/#students)).
+- [Pandas](https://pandas.pydata.org/docs/getting_started/index.html): data analysis and manipulation library.
 
 Machine learning
-- [scikit-learn](https://scikit-learn.org/stable/tutorial/index.html)
-- [Tensorflow / Keras](https://www.tensorflow.org/tutorials)
-- [Pytorch](https://pytorch.org/tutorials/)
-- [Tensorboard](https://www.tensorflow.org/tensorboard/get_started)
+- [scikit-learn](https://scikit-learn.org/stable/tutorial/index.html): machine learning library.
+- [Tensorflow / Keras](https://www.tensorflow.org/tutorials): library for neural networks.
+- [Pytorch](https://pytorch.org/tutorials/): library for neural networks.
+- [Tensorboard](https://www.tensorflow.org/tensorboard/get_started): data log visualization tool.
 
 Image and video processing
-- [Pillow](https://pillow.readthedocs.io/en/stable/)
-- [scikit-image](https://scikit-image.org/)
-- [OpenCV](https://opencv.org/)
-- [imgaug](https://imgaug.readthedocs.io/en/latest/)
-- [Albumentation](https://albumentations.ai/)
-- [scikit-video](http://www.scikit-video.org/)
-- [ffmpeg-python](https://github.com/kkroening/ffmpeg-python)
-- CNN Segmentation Models both in [Tensorflow](https://github.com/qubvel/segmentation_models) and [PyTorch](https://github.com/qubvel/segmentation_models.pytorch)
+- [Pillow](https://pillow.readthedocs.io/en/stable/): image processing library.
+- [scikit-image](https://scikit-image.org/): image processing library.
+- [OpenCV](https://opencv.org/): computer vision library.
+- [imgaug](https://imgaug.readthedocs.io/en/latest/): image augmentation library.
+- [Albumentation](https://albumentations.ai/): image augmentation library.
+- [scikit-video](http://www.scikit-video.org/): video processing library.
+- [ffmpeg-python](https://github.com/kkroening/ffmpeg-python): ffmpeg python wrapper.
+- CNN Segmentation Models both in [Tensorflow](https://github.com/qubvel/segmentation_models) and [PyTorch](https://github.com/qubvel/segmentation_models.pytorch).
 
 Audio processing
-- [librosa](https://librosa.org/)
-- [Audiomentation](https://github.com/iver56/audiomentations)
-- [pyroomacoustics](https://pyroomacoustics.readthedocs.io/)
+- [librosa](https://librosa.org/): audio features library.
+- [Audiomentation](https://github.com/iver56/audiomentations): audio augmentation library.
+- [pyroomacoustics](https://pyroomacoustics.readthedocs.io/): library to generate room impulse responses.
+- [Kapre](https://github.com/keunwoochoi/kapre): audio processing on GPU.
+- [TorchAudio](https://pytorch.org/audio/stable/index.html): audio processing on GPU.
 
 
 ## Credits
