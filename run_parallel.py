@@ -10,6 +10,7 @@ Paolo Bestagini
 import time
 from functools import partial
 from multiprocessing import Pool, cpu_count
+from concurrent.futures import ThreadPoolExecutor
 
 import numpy as np
 from tqdm import tqdm
@@ -56,10 +57,18 @@ def main():
 
     # Close the pool
     pool.close()
+    
+    # Evaluate the function with multi-threading
+    # BEST TO USE for I/O operations on data
+    t = time.time()
+    with ThreadPoolExecutor(num_cpu) as p:
+        results_mthread = list(tqdm(p.map(fun_part, x_list), total=len(x_list), desc='Multi-threading')) # With wait-bar
+    t_mthread = time.time() - t
 
     # Print results
     print('Serial results:   {} [{:.2f} ms]'.format(result_series, t_series*1000))
     print('Parallel results: {} [{:.2f} ms]'.format(result_parallel, t_parallel*1000))
+    print('Multi-threading results: {} [{:.2f} ms]'.format(results_mthread, t_mthread*1000))
 
 
 if __name__ == '__main__':
