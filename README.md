@@ -95,7 +95,7 @@ Now you can start the server with `tb RUN_PATH` and your python script that crea
 ## Parallel processing
 It is customary to run a function multiple times on different inputs (e.g., compute spectrograms from multiple audio
 recordings, apply some processing to all the images in a dataset, analyze each frame of a video, etc.).
-This can be done serially with a for loop, or in parallel over multiple cores.
+This can be done serially with a for loop, or in parallel over multiple cores, or using multiple threads (best for I/O operations on lots of files).
 Have a look at the example script [*run_parallel.py*](run_parallel.py).
 
 
