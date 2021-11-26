@@ -116,6 +116,7 @@ Image and video processing
 - [scikit-image](https://scikit-image.org/): image processing library.
 - [OpenCV](https://opencv.org/): computer vision library.
 - [imgaug](https://imgaug.readthedocs.io/en/latest/): image augmentation library.
+- [Augmentor](https://augmentor.readthedocs.io/en/master/): image augmentation library.
 - [Albumentation](https://albumentations.ai/): image augmentation library.
 - [scikit-video](http://www.scikit-video.org/): video processing library.
 - [ffmpeg-python](https://github.com/kkroening/ffmpeg-python): ffmpeg python wrapper.
