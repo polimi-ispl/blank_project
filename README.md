@@ -35,24 +35,35 @@ To get started, prepare a python environment and check if everything runs.
 - Install [conda](https://docs.conda.io/en/latest/miniconda.html)
 - Create and activate the `keras_env` environment with [*environment_keras.yml*](envs/environment_keras.yml)
 ```bash
-$ conda env create -f envs/keras_environment.yml
-$ conda activate keras_env
+conda env create -f envs/keras_environment.yml
+conda activate keras_env
 ```
 
 ### Prepare a pytorch enviroment
 - Install [conda](https://docs.conda.io/en/latest/miniconda.html)
 - Create and activate the `torch_env` environment with [*environment_torch.yml*](envs/environment_torch.yml)
 ```bash
-$ conda env create -f envs/torch_environment.yml
-$ conda activate torch_env
+conda env create -f envs/torch_environment.yml
+conda activate torch_env
 ```
 
 ### Use a GPU
 Considering the high computational cost of deep learning algorithms, it is useful to accelarate on a GPU.
 Basically, both tensorflow and pytorch come with native GPU support. However, they have different features:
-- PyTorch natively supports 1 GPU at a time; if you (really) need multiple GPUs, you have to code your own 
-`DataParallel` paradigm. To the best of our knowledge, it works perfectly at a glance.
-- Tensorflow typically needs an extra effort, as it needs a [perfect combination](https://www.tensorflow.org/install/source#gpu) of driver/python/package versions. Run the script [*gpu_check_tf.py*](gpu_check_tf.py) to check if GPUs are working correctly.
+- PyTorch natively supports 1 GPU at a time; if you (really) need multiple GPUs, you have to code your own
+  `DataParallel` paradigm. To the best of our knowledge, it works perfectly at a glance.
+- Tensorflow typically needs an extra effort, as it needs a [perfect combination](https://www.tensorflow.org/install/source#gpu) of driver/python/package versions.
+  Run the script [*gpu_check_tf.py*](gpu_check_tf.py) to check if GPUs are working correctly.
+  Note that, depending on the driver version, a server may or may not work with a given version of cuda.
+  - Example: to use Tensorflow 2.3 (working on all machines), according to [this table](https://www.tensorflow.org/install/source#gpu) you should run in your environment
+  ```bash
+  conda install tensorflow==2.3.0 cudnn=7.6 cudatoolkit=10.1
+  ```
+  - Example: to use Tensorflow 2.6 (working on some machines), according to [this table](https://www.tensorflow.org/install/source#gpu) you should run in your environment
+  ```bash
+  conda install tensorflow==2.6.0 cudnn=8.1 cudatoolkit=11.2
+  ```
+  
 
 
 ## Train a CNN
