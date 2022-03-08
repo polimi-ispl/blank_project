@@ -18,7 +18,8 @@ Folders and files should be organized as follows.
     │   ├── torch_utils.py              # Functions for pytorch scipts
     │   └── utils.py                    # Utility functions
     ├── clear_tensorboard_runs.py       # Script to clear tensorboard runs
-    ├── gpu_check.py                    # Script to check the GPU setup
+    ├── gpu_check_tf.py                 # Script to check the GPU setup on TF
+    ├── gpu_check_torch.py              # Script to check the GPU setup on PyTorch
     ├── log_tensorboard.py              # Script to log info through tensorboard
     ├── params.py                       # Simulation parameters
     ├── pass_parameters_to_script.py    # Script to pass input arguments
