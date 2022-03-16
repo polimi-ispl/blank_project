@@ -3,19 +3,19 @@ An example of training script that implements Pytorch-Lightning
 @Author: Francesco Picetti
 """
 from argparse import ArgumentParser
-
+import os
 import torch
 import torch.nn.functional as F
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 from torchvision.datasets import CIFAR10
 
+import src
+
 try:
     import pytorch_lightning as pl
 except ModuleNotFoundError:
-    import sys, subprocess
-    subprocess.call([sys.executable, '-m', 'pip', 'install', 'pytorch_lightning'])
-    import pytorch_lightning as pl
+    raise ModuleNotFoundError("Please install Pytorch Lightning with: `pip install pytorch_lightning`")
     
 
 class CNN(pl.LightningModule):
@@ -70,18 +70,21 @@ def main():
     parser = ArgumentParser(description="An example of parsing arguments")
     
     parser.add_argument("--outpath", type=str, required=False,
-                        default="results",
+                        default="./data/trained_models/lightning",
                         help="Results directory")
     parser.add_argument("--num_gpus", type=int, required=False, default=1,
                         help="Number of GPUs to use")
     parser.add_argument("--batch_size", type=int, required=False, default=32,
                         choices=[16, 32, 64],
                         help="Batch size")
-    parser.add_argument("--epochs", type=int, required=False, default=100,
+    parser.add_argument("--epochs", type=int, required=False, default=10,
                         help="Max iterations number")
     args = parser.parse_args()
     
-    # Output path
+    # save args to outpath, for reproducibility
+    os.makedirs(args.outpath, exist_ok=True)  # set to True to enable overwriting
+    src.write_args(filename=os.path.join(args.outpath, "args.txt"),
+                   args=args)
 
     # Transform to tensor and normalize to [0, 1]
     trans = transforms.Compose([
@@ -99,11 +102,11 @@ def main():
     
     # define callbacks
     early_stopping = pl.callbacks.EarlyStopping('val_loss', mode="min", patience=10)
-    checkpoint = pl.callbacks.ModelCheckpoint(dirpath=args.outpath)
+    checkpoint = pl.callbacks.ModelCheckpoint(dirpath=args.outpath, filename="best_model")
     
     # initialize a trainer
     trainer = pl.Trainer(gpus=args.num_gpus,  # how many GPUs to use...
-                         auto_select_gpus=True,  # ... only if they are available
+                         auto_select_gpus=True if args.num_gpus != 0 else False,  # ... only if they are available
                          deterministic=True,  # enables reproducibility
                          max_epochs=args.epochs,
                          progress_bar_refresh_rate=20,

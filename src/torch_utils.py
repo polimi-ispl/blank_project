@@ -4,7 +4,7 @@
 """
 
 import os
-
+from collections import OrderedDict
 import numpy as np
 import torch.nn.functional as F
 
@@ -63,3 +63,33 @@ class model_torch(torch.nn.Module):
         x = F.relu(self.dense1(x))
         x = self.dense2(x)
         return x
+
+
+def load_weights(model: torch.nn.Module, weights_path: str) -> torch.nn.Module:
+    state_tmp = torch.load(weights_path, map_location='cpu')
+    if 'net' not in state_tmp.keys():
+        state = OrderedDict({'net': OrderedDict()})
+        [state['net'].update({'model.{}'.format(k): v}) for k, v in state_tmp.items()]
+    else:
+        state = state_tmp
+    
+    incomp_keys = model.load_state_dict(state['net'], strict=True)
+    print(incomp_keys)
+    
+    return model
+
+
+def save_model(net: torch.nn.Module, optimizer: torch.optim.Optimizer,
+               train_loss: float, valid_loss: float,
+               train_score: float, valid_score: float,
+               batch_size: int, epoch: int, path: str):
+    path = str(path)
+    state = dict(net=net.state_dict(),
+                 opt=optimizer.state_dict(),
+                 train_loss=train_loss,
+                 valid_loss=valid_loss,
+                 train_score=train_score,
+                 valid_score=valid_score,
+                 batch_size=batch_size,
+                 epoch=epoch)
+    torch.save(state, path)

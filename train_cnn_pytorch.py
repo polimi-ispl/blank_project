@@ -1,5 +1,5 @@
 import os
-
+from argparse import ArgumentParser
 import numpy as np
 import pandas
 import torch
@@ -10,11 +10,12 @@ from torchvision.datasets import CIFAR10
 
 import src
 import src.torch_utils as arch
-from params import batch_size, epochs, trained_models_root, model_name_torch
 
 
 def train_loop(dataloader, model, loss_fn, optimizer, platform):
     size = len(dataloader.dataset)
+    train_loss, correct = 0, 0
+    
     for batch, (X, y) in enumerate(dataloader):
         # Move data on GPU
         X = X.to(platform)
@@ -25,6 +26,10 @@ def train_loop(dataloader, model, loss_fn, optimizer, platform):
         # Compute prediction and loss
         pred = model(X)
         loss = loss_fn(pred, y)
+        
+        train_loss += loss.item()
+        correct += (pred.argmax(1) == y).sum().item()
+        
         # Backpropagation
         loss.backward()
         optimizer.step()
@@ -32,6 +37,11 @@ def train_loop(dataloader, model, loss_fn, optimizer, platform):
         if batch % 100 == 0:
             loss, current = loss.item(), batch * len(X)
             print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
+    
+    train_loss /= len(dataloader)
+    correct /= size
+    
+    return correct, train_loss
 
 
 def val_loop(dataloader, model, loss_fn, platform):
@@ -56,16 +66,31 @@ def val_loop(dataloader, model, loss_fn, platform):
 
 
 def main():
-    # Output path
-    history_path = os.path.join(trained_models_root, '{:s}'.format(model_name_torch), 'history_torch.pt')
+    parser = ArgumentParser(description="An example of training a CIFAR classifier in pytorch")
+    parser.add_argument("--outpath", type=str, required=False,
+                        default="./data/trained_models/pytorch",
+                        help="Results directory")
+    parser.add_argument("--gpu", type=int, required=False, default=None,
+                        help="Index of GPU to use (None for CPU, -1 for least used GPU)")
+    parser.add_argument("--batch_size", type=int, required=False, default=32,
+                        choices=[16, 32, 64],
+                        help="Batch size")
+    parser.add_argument("--epochs", type=int, required=False, default=10,
+                        help="Max iterations number")
+    parser.add_argument("--lr", type=float, required=False, default=1e-3,
+                        help="Learning rate")
+    args = parser.parse_args()
+    
+    # save args to outpath, for reproducibility
+    os.makedirs(args.outpath, exist_ok=True)  # set to True to enable overwriting
+    src.write_args(filename=os.path.join(args.outpath, "args.txt"),
+                   args=args)
+    model_path = os.path.join(args.outpath, "best_model.pth")
+    history_path = os.path.join(args.outpath, "history.csv")
+    
+    # select the computation device:
+    src.set_gpu(args.gpu)
 
-    os.makedirs(history_path, exist_ok=True)
-    
-    # select the computation device automatically:
-    src.set_gpu(-1)
-    # or manually the first GPU (None for CPU):
-    # src.set_gpu(0)
-    
     # set backend here to create GPU processes
     src.torch_utils.set_backend()
     src.torch_utils.set_seed()
@@ -79,10 +104,10 @@ def main():
 
     # Load training and validation set, initialize Dataloaders
     trainset = CIFAR10(root='./data', train=True, download=True, transform=transform)
-    train_dataloader = DataLoader(trainset, batch_size=batch_size, shuffle=True, num_workers=2)
+    train_dataloader = DataLoader(trainset, batch_size=args.batch_size, shuffle=True, num_workers=2)
 
     valset = CIFAR10(root='./data', train=False, download=True, transform=transform)
-    val_dataloader = DataLoader(valset, batch_size=batch_size, shuffle=False, num_workers=2)
+    val_dataloader = DataLoader(valset, batch_size=args.batch_size, shuffle=False, num_workers=2)
     
     # Initialize model
     model = arch.model_torch()
@@ -90,9 +115,8 @@ def main():
     model = model.to(platform)
     
     # define the optimization parameters
-    learning_rate = 1e-3
     loss_fn = nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+    optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
     # Scheduler for reducing the learning rate on plateau
     lr_scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=3, mode='min', verbose=True)
 
@@ -101,21 +125,31 @@ def main():
     patience = 10          # max n of epoch with no improvements
     min_val_loss = np.inf
     history = []
-    for t in range(epochs):
+    for t in range(args.epochs):
 
         print(f"Epoch {t+1}\n-------------------------------")
         # Model training
-        train_loop(train_dataloader, model, loss_fn, optimizer, platform)
-        accuracy, val_loss = val_loop(val_dataloader, model, loss_fn, platform)
+        train_acc, train_loss = train_loop(train_dataloader, model, loss_fn, optimizer, platform)
+        val_acc, val_loss = val_loop(val_dataloader, model, loss_fn, platform)
+        
+        # SCHEDULER CALLBACK
         lr_scheduler.step(val_loss)    # call the scheduler to reduce the lr if val loss is in plateau
         history.append({"epoch": t,
-                        "loss": val_loss,
+                        "val_loss": val_loss,
+                        "loss": train_loss,
+                        "val_score": val_acc,
+                        "score": train_acc,
                         "lr": optimizer.param_groups[0]['lr']})
+        
         # MODEL CHECKPOINT CALLBACK
-        if accuracy > best_acc:
+        if val_acc > best_acc:
             # Callback for weight saving
-            torch.save(model.state_dict(), history_path)
-            best_acc = accuracy
+            # torch.save(model.state_dict(), model_path)
+            src.torch_utils.save_model(net=model, optimizer=optimizer,
+                                       train_loss=train_loss, valid_loss=val_loss,
+                                       train_score=train_acc, valid_score=val_acc,
+                                       batch_size=args.batch_size, epoch=t, path=model_path)
+            best_acc = val_acc
 
         # EARLY STOP CALLBACK
         if val_loss < min_val_loss:   # Improvement in the new epoch
@@ -128,13 +162,13 @@ def main():
             print(f'Early stopped at epoch {t}')
             # Save history for early stopping
             df = pandas.DataFrame(history)
-            df.to_csv("history.csv")
+            df.to_csv(history_path)
             break
 
     print("Done!")
     # Save history
     df = pandas.DataFrame(history)
-    df.to_csv("history.csv")
+    df.to_csv(history_path)
 
 
 if __name__ == '__main__':

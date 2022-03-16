@@ -74,7 +74,14 @@ To train a CNN
   [*train_cnn_pytorch.py*](train_cnn_pytorch.py) (if using pytorch) or
   [*train_cnn_lightning.py*](train_cnn_lightning.py) (if using pytorch lightning)
   
-The trained model and training history are saved into `trained_models_root` folder defined in *params.py*.
+The trained model and training history are saved into `trained_models_root` folder defined in *params.py* (if using Tensorflow / Keras).
+
+## Test a CNN
+Once your network is trained, you want to test it on a new dataset.
+Run the script [*test_cnn_pytorch.py*](test_cnn_pytorch.py) (if using pytorch) or
+  [*test_cnn_lightning.py*](test_cnn_lightning.py) (if using pytorch lightning)
+
+Check the use with `python test_cnn_pytorch.py --help`, you will see that you have to pass to the script the run folder that has been created by the training script.
 
 
 ## Passing arguments to a python script
