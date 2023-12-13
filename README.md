@@ -36,7 +36,7 @@ To get started, prepare a python environment and check if everything runs.
 - Install [conda](https://docs.conda.io/en/latest/miniconda.html)
 - Create and activate the `keras_env` environment with [*environment_keras.yml*](envs/environment_keras.yml)
 ```bash
-conda env create -f envs/keras_environment.yml
+conda env create -f envs/environment_keras.yml
 conda activate keras_env
 ```
 
@@ -44,7 +44,7 @@ conda activate keras_env
 - Install [conda](https://docs.conda.io/en/latest/miniconda.html)
 - Create and activate the `torch_env` environment with [*environment_torch.yml*](envs/environment_torch.yml)
 ```bash
-conda env create -f envs/torch_environment.yml
+conda env create -f envs/environment_torch.yml
 conda activate torch_env
 ```
 
